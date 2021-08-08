@@ -1,3 +1,6 @@
 <%= @seminar.title %>
-<%= @seminar.starts_at %>
-<%= @seminar.ends_at %>
+<%= @seminar.starts_at.strftime('%Y/%m/%d') %>
+<span>~</span></span>
+<%= @seminar.ends_at.strftime('%Y/%m/%d') %>
+<%= link_to "編集", edit_seminar_path %>
+<%= link_to '削除', seminar_path(@seminar), method: :delete, data: { confirm: '本当に消しますか？' } %>

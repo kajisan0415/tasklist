@@ -5,7 +5,7 @@
             <p class"article-form-label">タイトル <span class="article-form-must">必須</span></p>
         </div>
         <div class="article-form-right">
-            <p><%= f.text_field :title, class: "title" %></p>
+            <p><%= f.text_field :title, class: "article_image" %></p>
         </div>
     </div>
 
@@ -30,6 +30,6 @@
     </div>
     
     <tr class="actions">
-      <%= f.submit "新規登録" ,class: 'btn btn-sm btn-success' %>
+      <%= f.submit "更新" ,class: 'btn btn-sm btn-success' %>
     </tr>
   <% end %>
