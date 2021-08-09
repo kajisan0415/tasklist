@@ -4,7 +4,7 @@
 <%= @seminar.ends_at.strftime('%Y/%m/%d') %>
       <p>期限 <%= @seminar.ends_at %>
       <br>
-        <input type="hidden" id="userYear" value = "<%= @seminar.ends_at.year %>"  > 
+        <input type="hidden" id="userYear" value = "<%= @seminar.ends_at.year %>"  >
         <input type="hidden" id="userMonth"value = "<%= @seminar.ends_at.month %>" >
         <input type="hidden" id="userDate" value = "<%= @seminar.ends_at.day %>" >
         <input type="hidden" id="userHour" value = "<%= @seminar.ends_at.hour %>" >
@@ -33,7 +33,7 @@ function showCountdown() {
    // 現在日時を数値(1970-01-01 00:00:00からのミリ秒)に変換
    var nowDate = new Date();
    var dnumNow = nowDate.getTime();
- 
+
    // 指定日時を数値(1970-01-01 00:00:00からのミリ秒)に変換
    var inputYear  = document.getElementById("userYear").value;
    var inputMonth = document.getElementById("userMonth").value - 1;
@@ -43,7 +43,7 @@ function showCountdown() {
    var inputSec   = document.getElementById("userSec").value;
    var targetDate = new Date( isNumOrZero(inputYear), isNumOrZero(inputMonth), isNumOrZero(inputDate), isNumOrZero(inputHour), isNumOrZero(inputMin), isNumOrZero(inputSec) );
    var dnumTarget = targetDate.getTime();
- 
+
    // 表示を準備
    var dlYear  = targetDate.getFullYear();
    var dlMonth = targetDate.getMonth() + 1;
@@ -52,14 +52,14 @@ function showCountdown() {
    var dlMin   = targetDate.getMinutes();
    var dlSec   = targetDate.getSeconds();
    var msg1 = "期限の" + dlYear + "/" + dlMonth + "/" + dlDate + " " + set2fig(dlHour) + ":" + set2fig(dlMin) + ":" + set2fig(dlSec);
- 
+
    // 引き算して日数(ミリ秒)の差を計算
    var diff2Dates = dnumTarget - dnumNow;
    if( dnumTarget < dnumNow ) {
       // 期限が過ぎた場合は -1 を掛けて正の値に変換
       diff2Dates *= -1;
    }
- 
+
    // 差のミリ秒を、日数・時間・分・秒に分割
    var dDays  = diff2Dates / ( 1000 * 60 * 60 * 24 );   // 日数
    diff2Dates = diff2Dates % ( 1000 * 60 * 60 * 24 );
@@ -72,7 +72,7 @@ function showCountdown() {
             + Math.floor(dHour) + "時間"
             + Math.floor(dMin) + "分"
             + Math.floor(dSec) + "秒";
- 
+
    // 表示文字列の作成
    var msg;
    if( dnumTarget > dnumNow ) {
@@ -83,7 +83,7 @@ function showCountdown() {
       // 期限が過ぎた場合
       msg = msg1 + "は、既に" + msg2 + "前に過ぎました。";
    }
- 
+
    // 作成した文字列を表示
    document.getElementById("RealtimeCountdownArea").innerHTML = msg;
    document.getElementById("deadline.id").value =  targetDate;
@@ -96,3 +96,24 @@ setInterval('showCountdown()',1000);
 
 <%= link_to "編集", edit_seminar_path %>
 <%= link_to '削除', seminar_path(@seminar), method: :delete, data: { confirm: '本当に消しますか？' } %>
+
+
+<div class="comments">
+<% @seminar.post_comments.each do |post_comment| %>
+  <%= post_comment.user.name %>
+  <%= post_comment.report %>
+  <%= post_comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %>
+   <% if post_comment.user == current_user %>
+  <div class="comment-delete">
+    <%= link_to "削除", seminar_post_comment_path(post_comment.seminar, post_comment), method: :delete %>
+  </div>
+  <% end %>
+<% end %>
+</div>
+<div class="new-comment">
+<%= form_with(model:[@seminar, @post_comment], local: true) do |f| %>
+  <%= f.select :report, [['できた', 'できた'], ['できなかった', 'できなかった']], { include_blank: "選択して下さい"} %>
+  <%= f.text_area :comment, rows:'5',placeholder: "1日の振り返り" %>
+  <%= f.submit "送信する" %>
+<% end %>
+</div>

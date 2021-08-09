@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_08_070603) do
+ActiveRecord::Schema.define(version: 2021_08_09_091152) do
+
+  create_table "post_comments", force: :cascade do |t|
+    t.text "comment"
+    t.integer "user_id"
+    t.integer "seminar_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "report"
+  end
 
   create_table "seminars", force: :cascade do |t|
     t.string "title"
@@ -18,6 +27,7 @@ ActiveRecord::Schema.define(version: 2021_08_08_070603) do
     t.datetime "ends_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
