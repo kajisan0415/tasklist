@@ -3,6 +3,9 @@
     </li>
     <% if user_signed_in? %>
       <li>
+        <%= link_to "スケジュール", seminars_path %>
+      </li>
+      <li>
         <%= link_to "新規投稿", new_seminar_path %>
       </li>
       <li>
