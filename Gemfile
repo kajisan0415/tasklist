@@ -66,3 +66,5 @@ gem 'fullcalendar-rails'
 gem 'momentjs-rails'
 
 gem 'devise'
+gem 'bootstrap', '~> 4.5'
+
